@@ -42,9 +42,7 @@ class MainActivity : AppCompatActivity() {
                         query,
                         0,
                         perPage,
-
-                        // put your api key here
-                        "YOUR_API_KEY"
+                        "x1B6EBPuxyjcK6DoYvowC_1muUO1Oetw37GMGVoUU5g"
                     )
 
                     if (query == oldQuery) {
@@ -89,9 +87,7 @@ class MainActivity : AppCompatActivity() {
                                 query,
                                 page,
                                 perPage,
-
-                                // put your api key here
-                                "YOUR_API_KEY"
+                                "x1B6EBPuxyjcK6DoYvowC_1muUO1Oetw37GMGVoUU5g"
                             )
 
                             result.results.forEach {
