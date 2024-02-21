@@ -10,6 +10,7 @@ import com.nk.searchimages.adapter.ImagesAdapter
 import com.nk.searchimages.databinding.ActivityMainBinding
 import com.nk.searchimages.retrofit.ImagesApi
 import com.nk.searchimages.retrofit.RetrofitHelper
+import com.nk.searchimages.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var page = 1
-        var perPage = 20
+        val perPage = 20
         val imagesList = ArrayList<String>()
         imageAdapter = ImagesAdapter(this, imagesList)
         binding.imagesRv.adapter = imageAdapter
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                         query,
                         0,
                         perPage,
-                        "x1B6EBPuxyjcK6DoYvowC_1muUO1Oetw37GMGVoUU5g"
+                        Constants.API_KEY
                     )
 
                     if (query == oldQuery) {
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                                 query,
                                 page,
                                 perPage,
-                                "x1B6EBPuxyjcK6DoYvowC_1muUO1Oetw37GMGVoUU5g"
+                                Constants.API_KEY
                             )
 
                             result.results.forEach {
@@ -110,6 +111,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
     }
 }
