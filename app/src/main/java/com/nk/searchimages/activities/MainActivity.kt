@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var page = 1
+        var page = 0
         val perPage = 20
         val imagesList = ArrayList<String>()
         imageAdapter = ImagesAdapter(this, imagesList)
@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         val imagesApi = RetrofitHelper.getInstance().create(ImagesApi::class.java)
 
         binding.searchBtn.setOnClickListener {
+            page = 0
             query = binding.searchView.text.toString().trim()
             CoroutineScope(Dispatchers.IO).launch {
                 try {
