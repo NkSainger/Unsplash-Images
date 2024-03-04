@@ -1,8 +1,8 @@
 package com.nk.searchimages.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imageAdapter: ImagesAdapter
     private var oldQuery = ""
     var query = ""
-
+    var currentPosition = RecyclerView.NO_POSITION
+    var isLoading = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -80,10 +81,17 @@ class MainActivity : AppCompatActivity() {
                 val totalItemCount = layoutManager.itemCount
                 val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-                // Check if the RecyclerView is at the bottom
-                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
-                    val currentPosition = layoutManager.findLastVisibleItemPosition()
-                    CoroutineScope(Dispatchers.IO).launch {
+                // Check if the RecyclerView is at the bottom and not already loading
+                if (!isLoading && visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
+                    // Set isLoading to true to prevent multiple API calls
+                    isLoading = true
+
+                    // Post the API call to the next frame using a handler
+                    recyclerView.post {
+                        // Your code to load more items using API
+                        // ...
+                        Toast.makeText(this@MainActivity, "Loading More", Toast.LENGTH_LONG).show()
+                        CoroutineScope(Dispatchers.IO).launch {
                         try{
                             val result = imagesApi.getPhotos(
                                 query,
@@ -109,6 +117,9 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     page++
+                        // After loading, reset isLoading to false
+                        isLoading = false
+                    }
                 }
             }
         })
